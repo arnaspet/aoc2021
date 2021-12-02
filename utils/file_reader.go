@@ -20,3 +20,14 @@ func ReadFileToIntSlice(f *os.File) []int {
 
 	return slice
 }
+
+func ReadFileToStringSlice(f *os.File) []string {
+	scanner := bufio.NewScanner(f)
+	slice := make([]string, 0, 100)
+
+	for scanner.Scan() {
+		slice = append(slice, scanner.Text())
+	}
+
+	return slice
+}
