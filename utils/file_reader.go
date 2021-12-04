@@ -2,6 +2,7 @@ package utils
 
 import (
 	"bufio"
+	"container/list"
 	"os"
 	"strconv"
 )
@@ -30,4 +31,15 @@ func ReadFileToStringSlice(f *os.File) []string {
 	}
 
 	return slice
+}
+
+func ReadFileToStringList(f *os.File) *list.List {
+	scanner := bufio.NewScanner(f)
+	input := list.New()
+
+	for scanner.Scan() {
+		input.PushBack(scanner.Text())
+	}
+
+	return input
 }
