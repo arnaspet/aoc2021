@@ -3,8 +3,11 @@ package utils
 import (
 	"bufio"
 	"container/list"
+	"fmt"
 	"os"
 	"strconv"
+	"strings"
+	"time"
 )
 
 func ReadFileToIntSlice(f *os.File) []int {
@@ -13,6 +16,23 @@ func ReadFileToIntSlice(f *os.File) []int {
 
 	for scanner.Scan() {
 		num, err := strconv.Atoi(scanner.Text())
+		if err != nil {
+			panic(err)
+		}
+		slice = append(slice, num)
+	}
+
+	return slice
+}
+
+func ReadLineToIntSlice(f *os.File) []int {
+	scanner := bufio.NewScanner(f)
+	slice := make([]int, 0, 100)
+	scanner.Scan()
+	text := scanner.Text()
+
+	for _, num := range strings.Split(text, ",") {
+		num, err := strconv.Atoi(num)
 		if err != nil {
 			panic(err)
 		}
@@ -42,4 +62,10 @@ func ReadFileToStringList(f *os.File) *list.List {
 	}
 
 	return input
+}
+
+func RunWithTimeMetricsAndPrintOutput(solver func() string) {
+	start := time.Now()
+	fmt.Println("Solution is: ", solver())
+	fmt.Println("Solution took: ", time.Now().Sub(start))
 }
